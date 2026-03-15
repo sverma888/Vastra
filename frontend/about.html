@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Vastra</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    .about-hero { background: linear-gradient(160deg, #041e42 0%, #088178 100%); padding: 100px 60px; text-align: center; }
+    .about-hero h1 { font-family: var(--font-display); font-size: 56px; font-weight: 300; color: #fff; margin-bottom: 16px; }
+    .about-hero h1 em { color: var(--gold); font-style: italic; }
+    .about-hero p { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto; }
+    .about-section { padding: 80px 60px; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-grid h2 { font-family: var(--font-display); font-size: 40px; font-weight: 300; margin-bottom: 20px; line-height: 1.2; }
+    .about-grid p { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; }
+    .about-visual { background: linear-gradient(135deg, #e8f0ed, #d6ebe8); border-radius: var(--radius-lg); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+    .values-section { padding: 60px; background: var(--bg-card); }
+    .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
+    .value-card { text-align: center; padding: 32px 20px; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+    .value-card .vi { font-size: 36px; margin-bottom: 14px; }
+    .value-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .value-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .contact-section { padding: 80px 60px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-info-item { display: flex; gap: 16px; margin-bottom: 24px; }
+    .ci-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .contact-form { background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 36px; }
+    @media (max-width: 768px) { .about-hero { padding: 60px 24px; } .about-hero h1 { font-size: 36px; } .about-section, .values-section, .contact-section { padding: 40px 24px; } .about-grid, .contact-grid { grid-template-columns: 1fr; } .values-grid { grid-template-columns: repeat(2,1fr); } }
+  </style>
+</head>
+<body>
+<header class="site-header" id="site-header"></header>
+
+<div class="about-hero">
+  <h1>Fashion for <em>Every</em> Story</h1>
+  <p>India's most curated ethnic & western fashion destination — buy or rent premium outfits delivered to your door.</p>
+</div>
+
+<div class="about-section">
+  <div class="about-grid">
+    <div>
+      <div style="font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--primary);margin-bottom:12px">Our Story</div>
+      <h2>Born in Greater Noida, <em style="color:var(--primary)">Made for India</em></h2>
+      <p>Vastra started with a simple belief: that every Indian deserves access to beautiful, premium fashion — without breaking the bank. Whether it's a wedding suit, a festive lehenga, or a pair of everyday sneakers.</p>
+      <p>Our unique Buy & Rent model means you can own timeless pieces or borrow statement outfits for that one special occasion — at a fraction of the price.</p>
+      <p>From Knowledge Park 1 in Greater Noida, we serve customers across India with love, care, and a keen eye for style.</p>
+    </div>
+    <div class="about-visual">🧵</div>
+  </div>
+</div>
+
+<div class="values-section">
+  <div class="section-title">
+    <div class="eyebrow">What We Stand For</div>
+    <h2>Our Values</h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-card"><div class="vi">🤝</div><h3>Trust</h3><p>Every product is verified for quality before it reaches your door</p></div>
+    <div class="value-card"><div class="vi">♻️</div><h3>Sustainability</h3><p>Our rental model reduces textile waste and promotes conscious fashion</p></div>
+    <div class="value-card"><div class="vi">💰</div><h3>Affordability</h3><p>Premium fashion shouldn't be a luxury reserved for the few</p></div>
+    <div class="value-card"><div class="vi">🌟</div><h3>Excellence</h3><p>World-class service with local warmth — that's the Vastra promise</p></div>
+  </div>
+</div>
+
+<div class="contact-section">
+  <div class="section-title"><div class="eyebrow">Get in Touch</div><h2>Contact Us</h2></div>
+  <div class="contact-grid">
+    <div>
+      <div class="contact-info-item"><div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div><div><strong>Address</strong><br><span style="color:var(--text-muted);font-size:14px">Knowledge Park 1, Greater Noida, Uttar Pradesh 201310</span></div></div>
+      <div class="contact-info-item"><div class="ci-icon"><i class="fas fa-phone"></i></div><div><strong>Phone</strong><br><span style="color:var(--text-muted);font-size:14px">+91 9431509888</span></div></div>
+      <div class="contact-info-item"><div class="ci-icon"><i class="fas fa-envelope"></i></div><div><strong>Email</strong><br><span style="color:var(--text-muted);font-size:14px">support@vastra.com</span></div></div>
+      <div class="contact-info-item"><div class="ci-icon"><i class="fas fa-clock"></i></div><div><strong>Hours</strong><br><span style="color:var(--text-muted);font-size:14px">10:00 AM – 10:00 PM, Monday to Saturday</span></div></div>
+    </div>
+    <div class="contact-form">
+      <h3 style="font-family:var(--font-display);font-size:22px;font-weight:400;margin-bottom:24px">Send us a Message</h3>
+      <div class="form-group"><label>Your Name</label><input type="text" placeholder="Your full name"></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+      <div class="form-group"><label>Message</label><textarea rows="4" placeholder="How can we help you?"></textarea></div>
+      <button class="btn btn-primary btn-block" onclick="toast('Message sent! We\'ll get back to you soon 📬')">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="js/api.js"></script>
+<script src="js/components.js"></script>
+</body>
+</html>

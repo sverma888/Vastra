@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vastra — Fashion for Everyone</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh;
+      background: linear-gradient(135deg, #f5f5f0 0%, #e8f0ed 50%, #d6ebe8 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 60px;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(8,129,120,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { animation: fadeUp 0.8s ease both; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(8,129,120,0.1);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 6vw, 80px);
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .hero h1 em { font-style: italic; color: var(--primary); }
+    .hero h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 52px);
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 420px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .hero-sale-tag {
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .hero-img-wrap {
+      position: relative;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero-img-wrap img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      border-radius: 30px;
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-floating-card {
+      position: absolute;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: float 3s ease-in-out infinite;
+    }
+    .hero-floating-card.fc1 { bottom: 40px; left: -20px; }
+    .hero-floating-card.fc2 { top: 40px; right: -20px; animation-delay: 1.5s; }
+    .fc-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 16px; }
+    .fc-info .fc-label { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+    .fc-info .fc-value { font-size: 14px; font-weight: 700; color: var(--text); }
+
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+    /* ── FEATURES ── */
+    .features-section { padding: 40px 60px; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+      cursor: default;
+    }
+    .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--primary); }
+    .feature-card .feat-icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .feature-card:nth-child(1) .feat-icon { background:#fddde4; color:#e74c3c; }
+    .feature-card:nth-child(2) .feat-icon { background:#cdebbc; color:#27ae60; }
+    .feature-card:nth-child(3) .feat-icon { background:#d1e8f2; color:#2980b9; }
+    .feature-card:nth-child(4) .feat-icon { background:#cdd4f8; color:#6c5ce7; }
+    .feature-card:nth-child(5) .feat-icon { background:#f6dbf6; color:#e91e8c; }
+    .feature-card:nth-child(6) .feat-icon { background:#fff2e5; color:#f39c12; }
+    .feature-card h6 { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.5px; }
+
+    /* ── CATEGORIES ── */
+    .categories-section { padding: 60px; }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .cat-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+      background: var(--border);
+    }
+    .cat-card .cat-bg {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .cat-card:hover .cat-bg { transform: scale(1.06); }
+    .cat-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent 30%, rgba(0,0,0,0.7));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 24px;
+      text-align: center;
+    }
+    .cat-overlay h3 { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .cat-overlay span { font-size: 13px; color: rgba(255,255,255,0.8); }
+    .cat-card .cat-btn {
+      margin-top: 12px;
+      padding: 8px 20px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .cat-card:hover .cat-btn { background: var(--primary); border-color: var(--primary); }
+
+    /* Category placeholder gradients */
+    .cat-men { background: linear-gradient(135deg,#1a1a2e,#16213e); }
+    .cat-women { background: linear-gradient(135deg,#2d1b3d,#6b2d6b); }
+    .cat-boys { background: linear-gradient(135deg,#1a3a5c,#2d6b9c); }
+    .cat-girls { background: linear-gradient(135deg,#4a1942,#c0608c); }
+
+    /* ── PRODUCTS SECTION ── */
+    .products-section { padding: 40px 60px 60px; }
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .cat-tab {
+      padding: 9px 22px;
+      border-radius: 50px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.3px;
+    }
+    .cat-tab:hover, .cat-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    /* ── BANNER SECTIONS ── */
+    .banner-strip {
+      margin: 0 60px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--text) 0%, #2d2d3a 100%);
+      padding: 60px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .banner-strip::before {
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(8,129,120,0.15);
+    }
+    .banner-content h2 { font-family: var(--font-display); font-size: 40px; color: #fff; font-weight: 300; }
+    .banner-content h2 em { color: var(--gold); font-style: italic; }
+    .banner-content p { color: rgba(255,255,255,0.6); font-size: 15px; margin-top: 10px; }
+    .banner-actions { display: flex; gap: 12px; margin-top: 24px; }
+    .banner-stat { text-align: center; }
+    .banner-stat .stat-num { font-family: var(--font-display); font-size: 36px; font-weight: 600; color: #fff; }
+    .banner-stat .stat-label { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+
+    .sm-banners { padding: 60px 60px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .sm-banner-card {
+      border-radius: var(--radius-lg);
+      padding: 50px 40px;
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .sm-banner-card.dark { background: var(--text); }
+    .sm-banner-card.green { background: linear-gradient(135deg, #065e50, #088178); }
+    .sm-banner-card h4 { font-size: 14px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .sm-banner-card h2 { font-family: var(--font-display); font-size: 34px; font-weight: 400; margin-bottom: 10px; }
+    .sm-banner-card p { font-size: 14px; opacity: 0.7; margin-bottom: 24px; }
+    .sm-banner-card.dark h4, .sm-banner-card.dark h2, .sm-banner-card.dark p { color: #fff; }
+    .sm-banner-card.green h4, .sm-banner-card.green h2, .sm-banner-card.green p { color: #fff; }
+    .sm-banner-deco {
+      position: absolute;
+      right: -40px; top: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+    .sm-banner-deco::after {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.08);
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter-section {
+      margin: 60px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #041e42 0%, #0a3060 100%);
+      padding: 60px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+    }
+    .nl-content h2 { font-family: var(--font-display); font-size: 36px; color: #fff; font-weight: 400; margin-bottom: 10px; }
+    .nl-content p { color: rgba(255,255,255,0.6); font-size: 14px; }
+    .nl-content p span { color: var(--gold); font-weight: 600; }
+    .nl-form { display: flex; gap: 12px; }
+    .nl-form input {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+    }
+
+    @media (max-width: 1100px) {
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
+      .features-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; padding: 40px 24px; }
+      .hero-img-wrap { display: none; }
+      .categories-section, .products-section, .features-section { padding: 40px 24px; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .sm-banners, .newsletter-section, .banner-strip { margin: 0 24px; padding: 40px 24px; }
+      .sm-banners { grid-template-columns: 1fr; }
+      .newsletter-section { grid-template-columns: 1fr; }
+      .nl-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="site-header"></header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <i class="fas fa-circle" style="font-size:6px"></i>
+      New Collection 2026
+    </div>
+    <h1>Fashion for <em>Every</em></h1>
+    <h2>Occasion & Season</h2>
+    <p class="hero-desc">Discover India's most curated ethnic & western fashion — buy or rent premium outfits at unbeatable prices. From suits to sarees, sneakers to heels.</p>
+    <div class="hero-actions">
+      <a href="shop.html" class="btn btn-primary btn-lg">
+        <i class="fas fa-bag-shopping"></i> Shop Now
+      </a>
+      <span class="hero-sale-tag">Up to 50% OFF</span>
+    </div>
+  </div>
+  <div class="hero-img-wrap">
+    <div style="width:100%;height:520px;border-radius:30px;background:linear-gradient(135deg,#e8f0ed,#d6ebe8);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:20px;color:var(--primary);">
+      <div style="text-align:center">
+        <div style="font-size:80px;margin-bottom:16px">👗</div>
+        <p>Place your hero.png here</p>
+        <p style="font-size:14px;opacity:0.6">img/hero.png</p>
+      </div>
+    </div>
+    <div class="hero-floating-card fc1">
+      <div class="fc-icon"><i class="fas fa-star"></i></div>
+      <div class="fc-info">
+        <div class="fc-label">Customer Rating</div>
+        <div class="fc-value">4.9 / 5.0</div>
+      </div>
+    </div>
+    <div class="hero-floating-card fc2">
+      <div class="fc-icon"><i class="fas fa-truck"></i></div>
+      <div class="fc-info">
+        <div class="fc-label">Free Delivery</div>
+        <div class="fc-value">On ₹999+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feat-icon"><i class="fas fa-truck"></i></div>
+      <h6>Free Shipping</h6>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon"><i class="fas fa-mobile-alt"></i></div>
+      <h6>Online Order</h6>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon"><i class="fas fa-piggy-bank"></i></div>
+      <h6>Save Money</h6>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon"><i class="fas fa-tag"></i></div>
+      <h6>Promotions</h6>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon"><i class="fas fa-heart"></i></div>
+      <h6>Happy Sell</h6>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon"><i class="fas fa-headset"></i></div>
+      <h6>24/7 Support</h6>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories-section">
+  <div class="section-title">
+    <div class="eyebrow">Browse by Category</div>
+    <h2>Shop Your Style</h2>
+    <p>From ethnic elegance to western chic — something for everyone</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card" onclick="location.href='shop.html?category=men'">
+      <div class="cat-men" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;">👔</div>
+      <div class="cat-overlay">
+        <h3>Men</h3>
+        <span>Suits · Shirts · Jeans · Footwear</span>
+        <button class="cat-btn">Shop Men</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="location.href='shop.html?category=women'">
+      <div class="cat-women" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;">👗</div>
+      <div class="cat-overlay">
+        <h3>Women</h3>
+        <span>Sarees · Kurtis · Dresses · Heels</span>
+        <button class="cat-btn">Shop Women</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="location.href='shop.html?category=boys'">
+      <div class="cat-boys" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;">👦</div>
+      <div class="cat-overlay">
+        <h3>Boys</h3>
+        <span>Suits · Kurtas · Jeans · Sneakers</span>
+        <button class="cat-btn">Shop Boys</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="location.href='shop.html?category=girls'">
+      <div class="cat-girls" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;">👧</div>
+      <div class="cat-overlay">
+        <h3>Girls</h3>
+        <span>Dresses · Lehengas · Footwear</span>
+        <button class="cat-btn">Shop Girls</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="products-section">
+  <div class="section-title">
+    <div class="eyebrow">Handpicked For You</div>
+    <h2>Featured Products</h2>
+    <p>Collection of new modern designs — trending right now</p>
+  </div>
+  <div class="category-tabs">
+    <button class="cat-tab active" data-filter="all">All Products</button>
+    <button class="cat-tab" data-filter="men">Men</button>
+    <button class="cat-tab" data-filter="women">Women</button>
+    <button class="cat-tab" data-filter="boys">Boys</button>
+    <button class="cat-tab" data-filter="girls">Girls</button>
+    <button class="cat-tab" data-filter-badge="bestseller">Bestsellers</button>
+    <button class="cat-tab" data-filter-badge="trending">Trending</button>
+  </div>
+  <div class="products-grid" id="home-products">
+    <div style="grid-column:1/-1;text-align:center;padding:60px"><div class="spinner" style="width:36px;height:36px;margin:auto"></div></div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <a href="shop.html" class="btn btn-outline btn-lg">View All Products <i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- BIG BANNER -->
+<div class="banner-strip">
+  <div class="banner-content">
+    <h2>Buy 1 Get 1 <em>Free</em></h2>
+    <h2>On All Ethnic Wear</h2>
+    <p>Limited time offer — valid this season only. Use code <strong style="color:var(--gold)">VASTRA10</strong> for extra 10% off.</p>
+    <div class="banner-actions">
+      <a href="shop.html" class="btn btn-primary">Shop Now</a>
+      <a href="shop.html?category=men&subcategory=ethnic" class="btn btn-outline" style="border-color:rgba(255,255,255,0.4);color:#fff">Browse Ethnic</a>
+    </div>
+  </div>
+  <div style="display:flex;gap:60px">
+    <div class="banner-stat">
+      <div class="stat-num" id="stat-products">—</div>
+      <div class="stat-label">Products</div>
+    </div>
+    <div class="banner-stat">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Avg Rating</div>
+    </div>
+    <div class="banner-stat">
+      <div class="stat-num">Free</div>
+      <div class="stat-label">Delivery ₹999+</div>
+    </div>
+  </div>
+</div>
+
+<!-- SM BANNERS -->
+<div class="sm-banners">
+  <div class="sm-banner-card dark">
+    <div class="sm-banner-deco"></div>
+    <h4>Crazy Deals</h4>
+    <h2>Buy 1 Get 1 Free</h2>
+    <p>The best classic dress is on sale at Vastra</p>
+    <a href="shop.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.4);color:#fff;align-self:flex-start">Learn More</a>
+  </div>
+  <div class="sm-banner-card green">
+    <div class="sm-banner-deco"></div>
+    <h4>Spring / Summer</h4>
+    <h2>Upcoming Season</h2>
+    <p>Best collection of the year — fresh arrivals daily</p>
+    <a href="shop.html" class="btn btn-dark" style="align-self:flex-start">Collection</a>
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter-section">
+  <div class="nl-content">
+    <h2>Sign Up For Newsletters</h2>
+    <p>Get email updates about our latest drops and <span>exclusive special offers.</span></p>
+    <p style="margin-top:8px;font-size:13px;color:rgba(255,255,255,0.4)">No spam, unsubscribe anytime.</p>
+  </div>
+  <div>
+    <div class="nl-form">
+      <input type="email" id="nl-email" placeholder="Your email address">
+      <button class="btn btn-primary" onclick="subscribeNewsletter()">Sign Up</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="js/api.js"></script>
+<script src="js/components.js"></script>
+<script>
+let allProducts = [];
+let activeFilter = 'all';
+let activeBadge = null;
+
+async function loadProducts() {
+  try {
+    const data = await apiCall('/products?limit=16');
+    allProducts = data.products;
+    renderProducts(allProducts);
+    document.getElementById('stat-products').textContent = data.total + '+';
+  } catch (e) {
+    document.getElementById('home-products').innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:40px">${e.message}</div>`;
+  }
+}
+
+function renderProducts(products) {
+  const grid = document.getElementById('home-products');
+  if (!products.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)">No products found</div>';
+    return;
+  }
+  grid.innerHTML = products.slice(0, 12).map(p => productCardHTML(p)).join('');
+}
+
+// Category tab filter
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', async () => {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+    const badge = tab.dataset.filterBadge;
+    let url = '/products?limit=16';
+    if (filter && filter !== 'all') url += `&category=${filter}`;
+    if (badge) url += `&badge=${badge}`;
+    try {
+      const data = await apiCall(url);
+      renderProducts(data.products);
+    } catch {}
+  });
+});
+
+async function subscribeNewsletter() {
+  const email = document.getElementById('nl-email').value;
+  if (!email) return toast('Please enter your email', 'error');
+  try {
+    await apiCall('/newsletter', 'POST', { email });
+    toast('Subscribed successfully! 🎉');
+    document.getElementById('nl-email').value = '';
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+loadProducts();
+refreshCartCount();
+</script>
+</body>
+</html>

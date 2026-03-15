@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart — Vastra</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    .cart-page { padding: 40px 60px; max-width: 1200px; margin: 0 auto; }
+    .cart-layout { display: grid; grid-template-columns: 1fr 360px; gap: 32px; align-items: start; }
+    .cart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .cart-header h1 { font-family: var(--font-display); font-size: 28px; font-weight: 400; }
+    .cart-count-label { font-size: 14px; color: var(--text-muted); }
+    .cart-item {
+      display: grid; grid-template-columns: 90px 1fr auto;
+      gap: 16px; align-items: center;
+      padding: 20px 0; border-bottom: 1px solid var(--border);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item img { width: 90px; height: 90px; object-fit: contain; border-radius: var(--radius-sm); background: #f5f5f0; padding: 4px; }
+    .item-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; cursor: pointer; }
+    .item-name:hover { color: var(--primary); }
+    .item-brand { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; }
+    .item-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+    .item-meta span { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; margin-right: 6px; }
+    .item-type-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 50px; font-size: 11px; font-weight: 600; }
+    .item-type-badge.buy { background: var(--primary-light); color: var(--primary); }
+    .item-type-badge.rent { background: #fff3e0; color: #e65100; }
+    .qty-control { display: flex; align-items: center; border: 1.5px solid var(--border); border-radius: var(--radius-sm); }
+    .qty-control button { width: 32px; height: 32px; border: none; background: transparent; cursor: pointer; font-size: 16px; color: var(--text); transition: var(--transition); }
+    .qty-control button:hover { background: var(--primary-light); color: var(--primary); }
+    .qty-control span { padding: 0 12px; font-size: 14px; font-weight: 600; min-width: 40px; text-align: center; }
+    .item-price { text-align: right; }
+    .item-price .price { font-size: 18px; font-weight: 700; color: var(--primary); }
+    .item-price .unit { font-size: 12px; color: var(--text-muted); }
+    .remove-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 16px; margin-left: 16px; transition: var(--transition); padding: 6px; border-radius: 50%; }
+    .remove-btn:hover { color: var(--accent); background: #fef0f0; }
+    /* Order Summary */
+    .order-summary { background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 28px; position: sticky; top: 90px; }
+    .order-summary h2 { font-family: var(--font-display); font-size: 20px; font-weight: 600; margin-bottom: 24px; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 14px; }
+    .summary-row.total { border-top: 2px solid var(--border); padding-top: 14px; margin-top: 8px; font-size: 18px; font-weight: 700; }
+    .summary-row.discount { color: #27ae60; }
+    .summary-row.free { color: var(--primary); }
+    .coupon-wrap { margin: 20px 0; }
+    .coupon-input { display: flex; gap: 8px; }
+    .coupon-input input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 13px; outline: none; }
+    .coupon-input input:focus { border-color: var(--primary); }
+    .coupon-badge { display: flex; align-items: center; justify-content: space-between; background: #d4edda; border: 1px solid #c3e6cb; border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 10px; font-size: 13px; color: #155724; font-weight: 600; }
+    .coupon-remove { background: none; border: none; cursor: pointer; color: #155724; font-size: 16px; }
+    .coupon-hints { margin-top: 8px; font-size: 11px; color: var(--text-muted); }
+    .coupon-hints span { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; margin-right: 4px; cursor: pointer; font-weight: 600; }
+    .coupon-hints span:hover { border-color: var(--primary); color: var(--primary); }
+    @media (max-width: 900px) { .cart-page { padding: 20px; } .cart-layout { grid-template-columns: 1fr; } .order-summary { position: static; } .cart-item { grid-template-columns: 70px 1fr; } }
+  </style>
+</head>
+<body>
+<header class="site-header" id="site-header"></header>
+
+<div class="cart-page">
+  <div class="cart-header">
+    <h1>Shopping Cart</h1>
+    <span class="cart-count-label" id="cart-title">0 items</span>
+  </div>
+  <div id="cart-content">
+    <div style="text-align:center;padding:80px"><div class="spinner" style="width:36px;height:36px;margin:auto"></div></div>
+  </div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="js/api.js"></script>
+<script src="js/components.js"></script>
+<script>
+let cartData = null;
+let couponData = null;
+
+async function loadCart() {
+  if (!isLoggedIn()) {
+    document.getElementById('cart-content').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔒</div>
+        <h3>Please login to view your cart</h3>
+        <p>Sign in to access your saved items</p>
+        <a href="login.html?redirect=cart.html" class="btn btn-primary">Login Now</a>
+      </div>`;
+    return;
+  }
+  try {
+    cartData = await apiCall('/cart');
+    renderCart();
+  } catch (e) {
+    document.getElementById('cart-content').innerHTML = `<div class="empty-state"><div class="empty-icon">😕</div><h3>Could not load cart</h3><p>${e.message}</p></div>`;
+  }
+}
+
+function renderCart() {
+  if (!cartData.items.length) {
+    document.getElementById('cart-content').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🛍️</div>
+        <h3>Your cart is empty</h3>
+        <p>Looks like you haven't added anything yet. Start exploring!</p>
+        <a href="shop.html" class="btn btn-primary btn-lg"><i class="fas fa-bag-shopping"></i> Browse Products</a>
+      </div>`;
+    document.getElementById('cart-title').textContent = '0 items';
+    return;
+  }
+  const itemCount = cartData.items.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cart-title').textContent = `${itemCount} item${itemCount !== 1 ? 's' : ''}`;
+
+  let subtotal = cartData.subtotal;
+  const discount = couponData ? couponData.discountAmount : 0;
+  const shipping = (subtotal - discount) >= 999 ? 0 : 99;
+  const total = subtotal - discount + shipping;
+
+  document.getElementById('cart-content').innerHTML = `
+    <div class="cart-layout">
+      <div>
+        <div id="cart-items">
+          ${cartData.items.map(item => itemHTML(item)).join('')}
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:20px">
+          <a href="shop.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
+          <button class="btn btn-danger btn-sm" onclick="clearCart()"><i class="fas fa-trash"></i> Clear Cart</button>
+        </div>
+      </div>
+
+      <div class="order-summary">
+        <h2>Order Summary</h2>
+        <div class="summary-row">
+          <span>Subtotal (${itemCount} items)</span>
+          <span>${fmt(subtotal)}</span>
+        </div>
+        ${discount ? `<div class="summary-row discount"><span>Coupon Discount</span><span>-${fmt(discount)}</span></div>` : ''}
+        <div class="summary-row ${shipping === 0 ? 'free' : ''}">
+          <span>Delivery</span>
+          <span>${shipping === 0 ? 'FREE' : fmt(shipping)}</span>
+        </div>
+        ${shipping > 0 ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Add ${fmt(999 - subtotal + discount)} more for free delivery</div>` : ''}
+
+        <div class="coupon-wrap">
+          <div class="coupon-input">
+            <input type="text" id="coupon-input" placeholder="Enter coupon code" ${couponData ? 'disabled' : ''}>
+            <button class="btn btn-outline btn-sm" onclick="applyCoupon()">Apply</button>
+          </div>
+          ${couponData ? `<div class="coupon-badge">🏷️ ${couponData.code} — ${couponData.description} <button class="coupon-remove" onclick="removeCoupon()">✕</button></div>` : ''}
+          <div class="coupon-hints">
+            Try: <span onclick="setCode('VASTRA10')">VASTRA10</span><span onclick="setCode('FIRST20')">FIRST20</span><span onclick="setCode('FLAT200')">FLAT200</span>
+          </div>
+        </div>
+
+        <div class="summary-row total">
+          <span>Total</span>
+          <span style="color:var(--primary)">${fmt(total)}</span>
+        </div>
+        <a href="checkout.html" class="btn btn-primary btn-block btn-lg" style="margin-top:20px;text-decoration:none;display:flex;justify-content:center">
+          <i class="fas fa-lock"></i> Proceed to Checkout
+        </a>
+        <div style="display:flex;justify-content:center;gap:16px;margin-top:16px">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/100px-Visa_Inc._logo.svg.png" style="height:20px;opacity:0.5;object-fit:contain" alt="Visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/100px-Mastercard-logo.svg.png" style="height:20px;opacity:0.5;object-fit:contain" alt="Mastercard">
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function itemHTML(item) {
+  return `
+    <div class="cart-item" id="cart-item-${item.productId}">
+      <img src="${item.product.img}" alt="${item.product.name}" onerror="this.src='https://via.placeholder.com/90/f5f5f0/088178?text=IMG'" onclick="location.href='product.html?id=${item.productId}'">
+      <div>
+        <div class="item-brand">${item.product.brand}</div>
+        <div class="item-name" onclick="location.href='product.html?id=${item.productId}'">${item.product.name}</div>
+        <div class="item-meta">
+          ${item.size ? `<span>Size: ${item.size}</span>` : ''}
+          ${item.color ? `<span>${item.color}</span>` : ''}
+        </div>
+        <span class="item-type-badge ${item.type}">
+          ${item.type === 'buy' ? '<i class="fas fa-bag-shopping"></i> Buy' : '<i class="fas fa-calendar-alt"></i> Rent'}
+        </span>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:12px">
+          <div class="qty-control">
+            <button onclick="updateQty('${item.productId}','${item.size}','${item.color}',${item.qty - 1})">−</button>
+            <span>${item.qty}</span>
+            <button onclick="updateQty('${item.productId}','${item.size}','${item.color}',${item.qty + 1})">+</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0">
+        <div class="item-price">
+          <div class="price">${fmt(item.product[item.type === 'rent' ? 'rentPrice' : 'price'] * item.qty)}</div>
+          <div class="unit">${fmt(item.product[item.type === 'rent' ? 'rentPrice' : 'price'])} each</div>
+        </div>
+        <button class="remove-btn" onclick="removeItem('${item.productId}','${item.size}','${item.color}')" title="Remove"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+  `;
+}
+
+async function updateQty(productId, size, color, newQty) {
+  if (newQty <= 0) { removeItem(productId, size, color); return; }
+  try {
+    await apiCall('/cart/update', 'PUT', { productId, qty: newQty, size, color });
+    cartData = await apiCall('/cart');
+    renderCart();
+    refreshCartCount();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function removeItem(productId, size, color) {
+  try {
+    await apiCall(`/cart/remove/${productId}?size=${size}&color=${color}`, 'DELETE');
+    cartData = await apiCall('/cart');
+    renderCart();
+    refreshCartCount();
+    toast('Item removed');
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function clearCart() {
+  if (!confirm('Clear all items from cart?')) return;
+  await apiCall('/cart/clear', 'DELETE');
+  cartData.items = []; cartData.count = 0; cartData.subtotal = 0;
+  renderCart(); refreshCartCount();
+}
+
+function setCode(code) { document.getElementById('coupon-input').value = code; }
+
+async function applyCoupon() {
+  const code = document.getElementById('coupon-input').value.trim();
+  if (!code) return toast('Enter a coupon code', 'error');
+  try {
+    couponData = await apiCall('/coupon/validate', 'POST', { code, subtotal: cartData.subtotal });
+    toast(`Coupon applied! Saving ${fmt(couponData.discountAmount)} 🎉`);
+    renderCart();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+function removeCoupon() { couponData = null; renderCart(); toast('Coupon removed'); }
+
+loadCart();
+</script>
+</body>
+</html>
